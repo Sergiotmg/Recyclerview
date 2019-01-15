@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -50,8 +51,15 @@ public class MainActivity extends AppCompatActivity {
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager.
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));//++Ojo! imprescindibl
+        LinearLayoutManager manager= new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(manager);//++Ojo! imprescindible
         //si no le decimos que tipo de layout tiene que utilizxar no sabe cual utilizar
+        //conseguir unas lineas entre items del recycler
+        DividerItemDecoration dividerItemDecoration=
+                new DividerItemDecoration
+                        (mRecyclerView.getContext(),manager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
 
     }
 
