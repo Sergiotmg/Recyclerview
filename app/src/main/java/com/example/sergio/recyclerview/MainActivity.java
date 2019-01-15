@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -15,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final LinkedList<String> mWordList = new LinkedList<>();
     // ... Rest of MainActivity code ...
-
+    private RecyclerView mRecyclerView;
+    private WordListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,18 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 20; i++) {
             mWordList.addLast("Palabra " + i);
         }
+
+        // Creates the RecyclerView and connects it with an adapter and the data.
+        // Get a handle to the RecyclerView.
+        mRecyclerView = findViewById(R.id.recyclerView);
+        // Create an adapter and supply the data to be displayed.
+        mAdapter = new WordListAdapter(this, mWordList);
+        // Connect the adapter with the RecyclerView.
+        mRecyclerView.setAdapter(mAdapter);
+        // Give the RecyclerView a default layout manager.
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));//++Ojo! imprescindibl
+        //si no le decimos que tipo de layout tiene que utilizxar no sabe cual utilizar
+
     }
 
     @Override
