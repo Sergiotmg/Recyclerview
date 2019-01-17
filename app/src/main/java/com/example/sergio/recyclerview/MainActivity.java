@@ -17,6 +17,9 @@ import java.util.LinkedList;
 public class MainActivity extends AppCompatActivity {
 
     private final LinkedList<String> mWordList = new LinkedList<>();
+    //crear la clase Receta
+    private final LinkedList<Receta> mRecetaList = new LinkedList<>();
+    //
     // ... Rest of MainActivity code ...
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Receta rCarbonara= new Receta("mac carbonara","asdsdassd dsd");
+        //mRecetaList.addLast(rCarbonara);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         //Creo el mRecyclerView antes por si acaso porque en el onclick lo utilizamos
 
@@ -37,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // Get a handle to the RecyclerView.
         mRecyclerView = findViewById(R.id.recyclerView);
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new WordListAdapter(this, mWordList);
+        mAdapter = new WordListAdapter(this, mWordList);//extraeriamos solo lo de recetas
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager. NO OLVIDARSE DE ESTAS LINEAS!!!OJO!
@@ -85,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
     public void createList(){
         for (int i = 0; i < 20; i++) {
             mWordList.addLast("Palabra " + i);
+            //Receta rec=new Receta( "Receta"+1, "Descripcion "+i);
+            //mRecetaList.addLast(rec);
         }
     }
 
@@ -115,4 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
