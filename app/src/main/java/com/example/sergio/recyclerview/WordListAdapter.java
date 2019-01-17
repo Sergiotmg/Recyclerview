@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.LinkedList;
 
-public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
+public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder>  {
     //To hold your data in the adapter:
     private final LinkedList<String> mWordList;//los items que iremos mostrando
     private LayoutInflater mInflater;//para crear distintos layout
@@ -28,7 +28,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
     //una clase dentro de otra clase+
 
-    class WordViewHolder extends RecyclerView.ViewHolder {
+    class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final ImageView icon;
         public final TextView mTxtWord;
         public final LinearLayout linearLayout;
@@ -41,6 +41,23 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             mTxtWord = itemView.findViewById(R.id.txtWord);
             icon = itemView.findViewById(R.id.icon);
             this.mAdapter = adapter;//no usamos madapter por ahora pero se usara par ale onClikc
+            //qe click en tot el cuadrado se pone this porque dicha clase implementa onclickListener
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // Get the position of the item that was clicked.
+            int mPosition = getLayoutPosition();//E en todos los view HOlders
+            // Use that to access the affected item in mWordList.
+            String element = mWordList.get(mPosition);
+            // Change the word in the mWordList.
+            mWordList.set(mPosition, "Clickado! " + element);
+            // Notify the adapter, that the data has changed so it can
+            // update the RecyclerView to display the data.
+            mAdapter.notifyDataSetChanged();
+            //notifyItemChanged, que uno ha cambiado
+
         }
     }
 
@@ -60,6 +77,8 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
     @Override
     //bind= enlazar unir view holder con la vista y que muestre lo q toca
+    // se puede poner el onclick dentro del onBind pero no es recomendable porque cada vez que
+    //deslizamos se vuelven a generar todos los onclick
     public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
         String mCurrent = mWordList.get(position);
         holder.mTxtWord.setText(mCurrent);

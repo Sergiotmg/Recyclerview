@@ -31,17 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        for (int i = 0; i < 20; i++) {
-            mWordList.addLast("Palabra " + i);
-        }
+        //Creo el mRecyclerView antes por si acaso porque en el onclick lo utilizamos
 
         // Creates the RecyclerView and connects it with an adapter and the data.
         // Get a handle to the RecyclerView.
@@ -61,7 +51,45 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //declaro el tama lista
+                int wordListSize = mWordList.size();
+                // Add a new word to the wordList.
+                mWordList.addLast("+ Palabra " + wordListSize);
+                // Notify the adapter, that the data has changed.
+                // en caso de que eso se a nulo se cerraria app
+                if (mRecyclerView.getAdapter()!=null){
+                    //solo hay que avisarle que ya hemos insertado
+                    mRecyclerView.getAdapter().notifyItemInserted(wordListSize);
+                    // Scroll to the bottom.
+                    mRecyclerView.smoothScrollToPosition(wordListSize);
+                }
+
+
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+            }
+        });
+        // CREA TODA LA LISTA DE LOS N ITEMS
+        createList();
+
+
+
+
     }
+
+    //meterlo en un metodo aparte auese a creaete list y que en reset llame a ese
+
+    public void createList(){
+        for (int i = 0; i < 20; i++) {
+            mWordList.addLast("Palabra " + i);
+        }
+    }
+
+    // limpia tot WordList.clear();
+    ///luego el notifyItemchangedataSetchangexd tras el for que crea la lista
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -78,7 +106,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_reset) {
+            mWordList.clear();
+            createList();
+            mAdapter.notifyDataSetChanged();
             return true;
         }
 
