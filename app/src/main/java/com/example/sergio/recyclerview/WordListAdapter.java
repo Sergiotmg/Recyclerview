@@ -1,0 +1,88 @@
+package com.example.sergio.recyclerview;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.LinkedList;
+
+public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
+    //To hold your data in the adapter:
+    private final LinkedList<String> mWordList;//los items que iremos mostrando
+    private LayoutInflater mInflater;//para crear distintos layout
+    private Context context; // nos hara context.getresources para coger los colores de fondo
+    //constructor
+    public WordListAdapter(Context context,LinkedList<String> wordList) {//context no se deberia
+        // estar pasando de una clase a otra. mejor no ir pasando las variable context por ahi por
+        //problemas de memoria
+        mInflater = LayoutInflater.from(context);// si hay 20 creara 20
+        this.mWordList = wordList;
+        this.context=context;
+    }
+
+    //una clase dentro de otra clase+
+
+    class WordViewHolder extends RecyclerView.ViewHolder {
+        public final ImageView icon;
+        public final TextView mTxtWord;
+        public final LinearLayout linearLayout;
+        final WordListAdapter mAdapter;
+        // constructor para el wordViewHolder
+        public WordViewHolder(View itemView, WordListAdapter adapter) {
+            super(itemView);
+            //buscar !
+            linearLayout =itemView.findViewById(R.id.LinearLayout);
+            mTxtWord = itemView.findViewById(R.id.txtWord);
+            icon = itemView.findViewById(R.id.icon);
+            this.mAdapter = adapter;//no usamos madapter por ahora pero se usara par ale onClikc
+        }
+    }
+
+    //es obligatorio hacerle overrides en dicha clase
+    @NonNull
+    @Override
+    // vamos a crear un view holer para cada uno de los item ( sostenedor de vista)
+    public WordListAdapter.WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                             int viewType) {//int la posicion item
+        View mItemView = mInflater.
+                //generamos vista para inflar el layout, el padre y attach: se
+                //ate a padre=false
+                inflate(R.layout.wordlist_item,parent, false);// como false siempre
+        return new WordViewHolder(mItemView, this);// generamos un nuevo objeto con
+        //siempre sera = esta ultima linea , siempre devovleremos ese WordViewHolder
+    }
+
+    @Override
+    //bind= enlazar unir view holder con la vista y que muestre lo q toca
+    public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
+        String mCurrent = mWordList.get(position);
+        holder.mTxtWord.setText(mCurrent);
+        //holder.mTxtWord.setText(mCurrent.getName()); si fuera un cliente mCurrent
+        int drawable;//R.algo devuelve un entero
+        int color;
+        // NO PONER MUCHA LOGICA EN ESTE METODO
+        if (position%2==0){
+            drawable=R.drawable.i2;
+            color=R.color.blue;
+        }else{
+            drawable=R.drawable.i1;
+            color=R.color.red;
+        }
+        holder.linearLayout.setBackgroundColor(context.getResources().getColor(color));
+        holder.icon.setImageResource(drawable);
+    }
+
+    @Override
+    //el tamaño de la vista del redycler
+    public int getItemCount() {
+        return mWordList.size();
+    }
+
+
+}
