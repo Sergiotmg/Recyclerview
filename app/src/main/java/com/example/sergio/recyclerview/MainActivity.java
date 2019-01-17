@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new WordListAdapter(this, mWordList);
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
-        // Give the RecyclerView a default layout manager.
+        // Give the RecyclerView a default layout manager. NO OLVIDARSE DE ESTAS LINEAS!!!OJO!
         LinearLayoutManager manager= new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);//++Ojo! imprescindible
         //si no le decimos que tipo de layout tiene que utilizxar no sabe cual utilizar
