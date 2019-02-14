@@ -95,6 +95,13 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
         }
         holder.linearLayout.setBackgroundColor(context.getResources().getColor(color));
         holder.icon.setImageResource(drawable);
+        // para solo para ese text view  PARA QUE SE EXPANDA SOLO PARA ESE mTxtWord
+        holder.mTxtWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
